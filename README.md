@@ -33,8 +33,6 @@ High compatibility and stability spare you from all kinds of special problems.
 
 Author - **GoldenEggCN** <img src="docs/assets/401659-23acabcfa3435da90f880faf67e8e0ed.webp" width="16">
 
-Email - [840411244@qq.com](mailto:840411244@qq.com)
-
 ---
 
 ## Effect Demonstration
