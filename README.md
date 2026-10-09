@@ -31,7 +31,7 @@ High compatibility and stability spare you from all kinds of special problems.
 
 ### Contact
 
-Author - **GoldenEggCN** <img src="docs/assets/401659-23acabcfa3435da90f880faf67e8e0ed.webp" width="16">
+Author - **GoldenEggCN <img src="docs/assets/401659-23acabcfa3435da90f880faf67e8e0ed.webp" width="16"> **
 
 ---
 
