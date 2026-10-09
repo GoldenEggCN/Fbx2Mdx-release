@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fbx2Mdx — Fbx2Mdx (Easily convert .fbx/.glb to WC3 model!)</title>
+<style>
+    /* ================= 配色：照抄 Hive 暗色主题 =================
+       全部是**实测值**（用 log/_wrap_measure.py 读原站计算样式 + 从原站 CSS
+       挖规则得到），不是自己调出来的：
+         html/页面底 #000 · 内容块 #202020（边 #292929）
+         正文 #d9d3c3 · 次要文字 #8a8a8a · 暗淡 #b1aea6
+         链接 #f8b700（hover #fff 加下划线）
+         代码/引用块 #151515（边 #474747）· 行内代码底 #000（边 #1f1f1f）
+         表格 th 底 #151515 / td 底 #000，边框 #292929
+       为什么必须换成暗底：正文里作者用的内联色（金黄 #f7da64、青绿 #1abc9c…）
+       本来就是配暗底挑的，放白底上会发飘。
+       ============================================================ */
+    html { color-scheme: dark; }   /* 让滚动条等浏览器 UI 也走暗色 */
+    body { margin: 0; background: #000; color: #d9d3c3;
+           font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; }
+    /* 正文宽 1302px —— Hive 原站实测值（.p-body-inner 是 max-width:1400px，
+       扣掉内边距后正文实测 1302px）。这个宽度直接决定"一行放几张图"：
+       照它设，配对结果与原文逐行一致（实测 16/16 行吻合）。
+       横向内边距用 clamp：宽屏时正好 49px ⇒ 内容 1302px；
+       窄屏自动收窄，不浪费空间。 */
+    .panel { max-width: 1302px; margin: 26px auto 48px;
+             padding: 22px clamp(16px, 3.5vw, 49px);
+             background: #202020; border: 1px solid #292929; border-radius: 5px; }
+    header { border-bottom: 1px solid #333; padding-bottom: 14px; margin-bottom: 22px; }
+    h1 { margin: 0 0 6px; font-size: 26px; line-height: 1.25; color: #d9d3c3; }
+    .meta { color: #8a8a8a; font-size: 13px; }
+    .meta b { color: #f8b700; }
+    .src { margin-top: 10px; font-size: 13px; color: #8a8a8a; }
+    .bbWrapper { line-height: 1.65; font-size: 15px; word-wrap: break-word; }
+
+    /* ---- 图片换行：照搬 Hive/XenForo 的规则，保证跟原帖是同一套机制 ----
+       原站就是靠 `.bbImageWrapper{display:inline-block}` 让多张图排在一行
+       （图之间只有文字或空白，没有 <br>）；容器放不下才折行。
+       漏掉 display:inline-block 会让 div 退回块级 ⇒ 每张图独占一行。 */
+    .bbImageWrapper { display: inline-block; max-width: 100%; }
+    .bbImage { height: auto; max-width: 100%; width: auto; cursor: zoom-in; }
+    /* 原文里用 style="width: 16px" 之类固定尺寸的（如行内小图标）照旧生效 */
+    .bbImageWrapper[style*="width"]:not([style*="width: auto"]) > .bbImage { width: 100%; }
+    .bbImageWrapper[style*="height"] > .bbImage { height: 100%; }
+    /* 原文里左右浮动的图（.bbImageAligned--left/right）*/
+    .bbImageWrapper.bbImageAligned--left  { float: left;  margin: .25em 1.35em 1.35em 0; }
+    .bbImageWrapper.bbImageAligned--right { float: right; margin: .25em 0 1.35em 1.35em; }
+    /* 兜底：正文里任何图片都不许溢出容器 */
+    .bbWrapper img { max-width: 100%; height: auto; }
+
+    a { color: #f8b700; text-decoration: none; }
+    a:hover { color: #fff; text-decoration: underline; }
+    table { border-collapse: collapse; margin: 10px 0; }
+    th { background: #151515; border: 1px solid #292929;
+         border-bottom: 2px solid #6f0d10; padding: 3px 8px; }
+    td { background: #000; border: 1px solid #292929;
+         padding: 3px 8px; vertical-align: top; }
+    blockquote, .bbCodeBlock { background: #151515; border: 1px solid #474747;
+        border-radius: 5px; margin: .5em 0; padding: 8px 14px; }
+    .bbCodeBlock-title { font-weight: bold; margin-bottom: 4px; }
+    code, pre, .bbCodeInline { background: #000; border: 1px solid #1f1f1f;
+        border-radius: 2px; font-family: Consolas, "Courier New", monospace;
+        font-size: 80%; padding: 1px 3px; }
+    pre { padding: 10px 14px; overflow: auto; white-space: pre-wrap; }
+    .bbCodeSpoiler { border: 1px solid #474747; background: #151515;
+        margin: 10px 0; padding: 10px; border-radius: 5px; }
+    .bbCodeSpoiler-button { font-weight: bold; }
+    hr { border: 0; border-top: 1px solid #333; margin: 16px 0; }
+    </style>
+</head>
+<body>
+<div class="panel">
+<header>
+<h1>Fbx2Mdx (Easily convert .fbx/.glb to WC3 model!)</h1>
+<div class="meta">作者 <b>Power</b> · 发布 2026-09-08 21:15:03+0100</div>
+<div class="src">Full introduction &nbsp;·&nbsp; 原帖：<a href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/">Hive Workshop</a> &nbsp;·&nbsp; <a href="https://github.com/GoldenEggCN/Fbx2Mdx-release">返回仓库</a></div>
+</header>
+<div class="bbWrapper">
+<b><span style="font-size: 26px"><span style="color: rgb(247, 218, 100)">Version </span></span><span style="font-size: 18px">0.280</span></b><br />
+<br />
+<div class="bbImageWrapper" title="401858-9f9d4f69f2c5275748efc35cbb4ac65e.webp"
+		style=""
+	>
+		<img src="assets/401858-9f9d4f69f2c5275748efc35cbb4ac65e.webp" alt="401858-9f9d4f69f2c5275748efc35cbb4ac65e.webp" />
+	</div><br />
+<br />
+<b><span style="font-size: 18px">What is it? </span></b><br />
+<span style="color: rgb(243, 121, 52)">A model format conversion tool.</span><br />
+It lets you easily convert common model formats such as <span style="color: rgb(97, 189, 109)">FBX/GLB</span> into the model format used by <span style="color: rgb(147, 101, 184)">Warcraft III</span>.<br />
+Beginner-friendly and easy to use - one-click operation, no professional tools or plugins required.<br />
+High compatibility and stability spare you from all kinds of special problems.<br />
+<br />
+<b><span style="color: rgb(44, 130, 201)"><span style="font-size: 18px">Features:</span></span></b><br />
+Supports preserving the model&#039;s initial <span style="color: rgb(251, 160, 38)">bind/rest pose</span>.<br />
+Supports MDX classic mode restoring <span style="color: rgb(251, 160, 38)">smooth weight behaviour</span>.<br />
+Supports MDX auto-adding <span style="color: rgb(251, 160, 38)">attachment points</span> and collision shapes.<br />
+Supports editing <span style="color: rgb(251, 160, 38)">offset, rotation, scale</span> and other parameters.<br />
+Supports quickly <span style="color: rgb(251, 160, 38)">merging animation</span> data that shares the same skeleton.<br />
+Supports <span style="color: rgb(251, 160, 38)">optimizing</span> the model and animations to reduce file size.<br />
+<br />
+<b><span style="color: rgb(26, 188, 156)"><span style="font-size: 18px">Contact:</span></span></b><br />
+Author - <b><span style="color: rgb(250, 197, 28)">GoldenEggCN<div class="bbImageWrapper" title="401659-23acabcfa3435da90f880faf67e8e0ed.webp"
+		style="width: 16px"
+	>
+		<img src="assets/401659-23acabcfa3435da90f880faf67e8e0ed.webp" alt="401659-23acabcfa3435da90f880faf67e8e0ed.webp" />
+	</div></span></b><br />
+Email - <a href="mailto:840411244@qq.com">840411244@qq.com</a><br />
+<br />
+<br />
+<span style="font-size: 26px"><b><span style="color: rgb(21, 21, 21)">==========================</span><span style="color: rgb(163, 143, 132)">Effect Demonstration</span></b></span><br />
+<br />
+<br />
+<span style="font-size: 22px">FBX:<div class="bbImageWrapper" title="401734-84b4477bd63c57e42878104864c88ee7.webp"
+		style=""
+	>
+		<img src="assets/401734-84b4477bd63c57e42878104864c88ee7.webp" alt="401734-84b4477bd63c57e42878104864c88ee7.webp" />
+	</div> → MDX:<div class="bbImageWrapper" title="401735-51ddeafc1cd2fac1bf8e8c15c3b17440.webp"
+		style=""
+	>
+		<img src="assets/401735-51ddeafc1cd2fac1bf8e8c15c3b17440.webp" alt="401735-51ddeafc1cd2fac1bf8e8c15c3b17440.webp" />
+	</div></span><br />
+<br />
+<br />
+<br />
+<span style="color: rgb(65, 168, 95)"><span style="font-size: 18px">As you can see, even when converted to classic MDX, it can still maintain smooth dancing poses and movements.</span></span><br />
+<div class="bbImageWrapper" title="401737-1d507546f8f4ab3542e12ee6002492fb.webp"
+		style=""
+	>
+		<img src="assets/401737-1d507546f8f4ab3542e12ee6002492fb.webp" alt="401737-1d507546f8f4ab3542e12ee6002492fb.webp" />
+	</div> <div class="bbImageWrapper" title="401738-2bf53b517396f03cd1da481b0506e22a.webp"
+		style=""
+	>
+		<img src="assets/401738-2bf53b517396f03cd1da481b0506e22a.webp" alt="401738-2bf53b517396f03cd1da481b0506e22a.webp" />
+	</div><br />
+<br />
+<br />
+<br />
+<br />
+<span style="color: rgb(235, 107, 86)"><span style="font-size: 18px">Quickly adjust the model with operations such as <b>translation</b>, <b>rotation</b>, and <b>scaling.</b></span></span><br />
+<div class="bbImageWrapper" title="404180-ec56dd1c238d6f9179c0724b1125553c.webp"
+		style=""
+	>
+		<img src="assets/404180-ec56dd1c238d6f9179c0724b1125553c.webp" alt="404180-ec56dd1c238d6f9179c0724b1125553c.webp" />
+	</div><div class="bbImageWrapper" title="404181-6f33580d89a8fe76a9df192f65bfda34.webp"
+		style=""
+	>
+		<img src="assets/404181-6f33580d89a8fe76a9df192f65bfda34.webp" alt="404181-6f33580d89a8fe76a9df192f65bfda34.webp" />
+	</div><br />
+<div class="bbImageWrapper" title="404182-72067d5f379f6381aaf56cfba7df44db.webp"
+		style=""
+	>
+		<img src="assets/404182-72067d5f379f6381aaf56cfba7df44db.webp" alt="404182-72067d5f379f6381aaf56cfba7df44db.webp" />
+	</div><div class="bbImageWrapper" title="404183-6897748d28b8d658e3dceedecde6ef41.webp"
+		style=""
+	>
+		<img src="assets/404183-6897748d28b8d658e3dceedecde6ef41.webp" alt="404183-6897748d28b8d658e3dceedecde6ef41.webp" />
+	</div><br />
+<br />
+<span style="color: rgb(235, 107, 86)"><span style="font-size: 15px">The &quot;<b>Reduce Polygons&quot;</b> feature can drastically cut down vertex counts and ease the rendering load for games.</span></span><br />
+<div class="bbImageWrapper" title="404162-b6fc649292e8be2f7f369620464c4b21.webp"
+		style="width: 500px"
+	>
+		<img src="assets/404162-b6fc649292e8be2f7f369620464c4b21.webp" alt="404162-b6fc649292e8be2f7f369620464c4b21.webp" />
+	</div><div class="bbImageWrapper" title="404163-58fdf494df97de390fb9e55b87093e62.webp"
+		style="width: 500px"
+	>
+		<img src="assets/404163-58fdf494df97de390fb9e55b87093e62.webp" alt="404163-58fdf494df97de390fb9e55b87093e62.webp" />
+	</div><br />
+<br />
+<br />
+<br />
+<br />
+<span style="color: rgb(147, 101, 184)"><span style="font-size: 18px">You can also synthesize more animations for her... provided there is a source with the same skeleton.</span></span><br />
+<div class="bbImageWrapper" title="401739-5a301b6f2bead5420249f527cd4b8b7b.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401739-5a301b6f2bead5420249f527cd4b8b7b.webp" alt="401739-5a301b6f2bead5420249f527cd4b8b7b.webp" />
+	</div><div class="bbImageWrapper" title="401740-54161d4e7b92839124c95eb0898181d7.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401740-54161d4e7b92839124c95eb0898181d7.webp" alt="401740-54161d4e7b92839124c95eb0898181d7.webp" />
+	</div><div class="bbImageWrapper" title="401741-3a1197d343aa74fb2fc765a74b863e75.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401741-3a1197d343aa74fb2fc765a74b863e75.webp" alt="401741-3a1197d343aa74fb2fc765a74b863e75.webp" />
+	</div><br />
+<br />
+<span style="font-size: 15px"><span style="color: rgb(147, 101, 184)">The &quot;<b>attachment points</b>&quot; required by the game will automatically recognize the bones and be added to the model.<br />
+Of course, there are also material textures.</span></span><br />
+<div class="bbImageWrapper" title="401743-3a9d090dd524454281d9f3c1083af1df.gif"
+		style=""
+	>
+		<img src="assets/401743-3a9d090dd524454281d9f3c1083af1df.gif" alt="401743-3a9d090dd524454281d9f3c1083af1df.gif" />
+	</div> <div class="bbImageWrapper" title="401746-cd3c75609a4f835f6c365cec359253bc.webp"
+		style=""
+	>
+		<img src="assets/401746-cd3c75609a4f835f6c365cec359253bc.webp" alt="401746-cd3c75609a4f835f6c365cec359253bc.webp" />
+	</div><br />
+<br />
+<br />
+<br />
+<br />
+<span style="color: rgb(84, 172, 210)"><span style="font-size: 18px">If you want to create a mirror image... simply set the scale value to a negative number.</span></span><br />
+<div class="bbImageWrapper" title="404194-3b3d320edeb1ee8281b139e278b08db2.webp"
+		style=""
+	>
+		<img src="assets/404194-3b3d320edeb1ee8281b139e278b08db2.webp" alt="404194-3b3d320edeb1ee8281b139e278b08db2.webp" />
+	</div><br />
+<br />
+<span style="color: rgb(84, 172, 210)"><span style="font-size: 15px">Adjusting the <b>“Denoise”</b> and <b>“Smoothing”</b> levels of the animation, this will make character movements much smoother.</span></span><br />
+<div class="bbImageWrapper" title="404193-f8057a3f48a07a87acc7e25a68132afe.gif"
+		style=""
+	>
+		<img src="assets/404193-f8057a3f48a07a87acc7e25a68132afe.gif" alt="404193-f8057a3f48a07a87acc7e25a68132afe.gif" />
+	</div><br />
+<br />
+<span style="color: rgb(84, 172, 210)"><span style="font-size: 18px"><b>origin → denoise → </b><span style="color: rgb(84, 172, 210)"><b>denoise &amp; smoothing</b></span></span></span><br />
+<div class="bbImageWrapper" title="401836-fd7726be27ebb84fea650352d1801323.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401836-fd7726be27ebb84fea650352d1801323.webp" alt="401836-fd7726be27ebb84fea650352d1801323.webp" />
+	</div><div class="bbImageWrapper" title="401837-dd9ab74a1b0e7049c59a5bb294547f0c.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401837-dd9ab74a1b0e7049c59a5bb294547f0c.webp" alt="401837-dd9ab74a1b0e7049c59a5bb294547f0c.webp" />
+	</div><div class="bbImageWrapper" title="401838-8d9b99c797a979f366cc6b311baf9feb.webp"
+		style="width: 350px"
+	>
+		<img src="assets/401838-8d9b99c797a979f366cc6b311baf9feb.webp" alt="401838-8d9b99c797a979f366cc6b311baf9feb.webp" />
+	</div><br />
+<br />
+<br />
+<br />
+<br />
+<span style="color: rgb(0, 168, 133)"><span style="font-size: 18px">The topology of AI-generated models is often messy, with high polygon counts and difficult skinning workflows. <br />
+But now you can use this <b>&quot;Retopology and Bake&quot;</b> tool to quickly reconstruct your models.</span></span><br />
+<div class="bbImageWrapper" title="404063-9782e3ad8710f2e6cf40929f0251c5a4.webp"
+		style=""
+	>
+		<img src="assets/404063-9782e3ad8710f2e6cf40929f0251c5a4.webp" alt="404063-9782e3ad8710f2e6cf40929f0251c5a4.webp" />
+	</div><br />
+<br />
+<span style="font-size: 15px"><span style="color: rgb(26, 188, 156)">After retopology, the model &#039;s feature has its vertex count reduced by a whopping 50%! Moreover, the mesh topology becomes much cleaner.</span></span><br />
+<div class="bbImageWrapper" title="404068-68021307fb79527592464592e2f1d13d.webp"
+		style="width: 443px"
+	>
+		<img src="assets/404068-68021307fb79527592464592e2f1d13d.webp" alt="404068-68021307fb79527592464592e2f1d13d.webp" />
+	</div><b><span style="font-size: 26px">→</span></b><div class="bbImageWrapper" title="404069-4740172ef99bee29c087f10858f7ce66.webp"
+		style="width: 443px"
+	>
+		<img src="assets/404069-4740172ef99bee29c087f10858f7ce66.webp" alt="404069-4740172ef99bee29c087f10858f7ce66.webp" />
+	</div><br />
+<br />
+<span style="font-size: 15px"><span style="color: rgb(26, 188, 156)">And the color blocks on the texture maps also become neater, you will find it much easier to paint color patterns on it.</span></span><br />
+<div class="bbImageWrapper" title="404070-98d81ccb71f25013316d1e671e30b991.webp"
+		style="width: 443px"
+	>
+		<img src="assets/404070-98d81ccb71f25013316d1e671e30b991.webp" alt="404070-98d81ccb71f25013316d1e671e30b991.webp" />
+	</div><b><span style="font-size: 26px">→<div class="bbImageWrapper" title="404071-5d32b06b11e6effde2670784f118f356.webp"
+		style="width: 443px"
+	>
+		<img src="assets/404071-5d32b06b11e6effde2670784f118f356.webp" alt="404071-5d32b06b11e6effde2670784f118f356.webp" />
+	</div></span></b><br />
+<br />
+<span style="font-size: 15px"><span style="color: rgb(26, 188, 156)"><b>Fortunately, this process preserves the model&#039;s skin weights and skeletal animations!</b></span></span><br />
+<div class="bbImageWrapper" title="404505-b142de05ee3e3a314b09febcb6160e80.webp"
+		style=""
+	>
+		<img src="assets/404505-b142de05ee3e3a314b09febcb6160e80.webp" alt="404505-b142de05ee3e3a314b09febcb6160e80.webp" />
+	</div><br />
+<br />
+<br />
+=============================================================================================================<br />
+<br />
+<b><span style="font-size: 18px">FAQ</span><br />
+<br />
+Q: Is this software paid?<br />
+<br />
+<span style="color: rgb(255, 255, 255)">A: It is completely free. In the future, only certain AI features maybe charged for.</span><br />
+<br />
+<span style="color: rgb(204, 204, 204)"><b>Q: Does the converted MDX model come with animations? Can it convert particle effects?</b></span><br />
+<br />
+<span style="color: rgb(255, 255, 255)"><b>A: If the original model has animations, the converted MDX model will retain them. As for particle effects, they are native to the game engine and not stored inside model files, so particle effects cannot be converted.</b></span><br />
+<br />
+Q: Why does this software take a long time to import and export, and why does the exported FBX take up more disk space?<br />
+<br />
+<span style="color: rgb(255, 255, 255)">A: The software bakes all of the model&#039;s skeletal animations intokeyframes, so that they adapt to almost every game engine andfully reproduce the animation. This trades time and disk space forcompatibility - a necessary compromise.</span><br />
+<br />
+Q: Some people have already used AI to create a DLL that can read and recognize all types of Blizzard model resources in-game. Why do we still need a converter?<br />
+<br />
+<span style="color: rgb(255, 255, 255)">A: Blizzard&#039;s model formats are very simple and stable. Butclosed-source formats like FBX tend to be wildly varied and messy,so reading them directly in-game is very unrealistic - the only wayto use them is through conversion.</span><br />
+<br />
+Q: What makes this converter different from other lightweight MDX converters or plugins?<br />
+<br />
+<span style="color: rgb(255, 255, 255)">A: It is more like an FBX editor, or an &quot;FBX purifier&quot;. It turns allkinds of FBX files into more stable versions so that they can bepassed between various modeling software and game engineswithout obstacles. Therefore it is not limited to Blizzard gameresources; it has an industrial-grade pipeline and betterextensibility.</span></b><br />
+<br />
+<br />
+<br />
+<span style="color: rgb(247, 218, 100)"><span style="font-size: 26px">Enjoy!</span></span>
+</div>
+</div>
+</body>
+</html>
