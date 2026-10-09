@@ -5,25 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fbx2Mdx (Easily convert .fbx/.glb to WC3 model!)</title>
 <style>
-    /* ================= 配色：照抄 Hive 暗色主题 =================
-       全部是**实测值**（用 log/_wrap_measure.py 读原站计算样式 + 从原站 CSS
-       挖规则得到），不是自己调出来的：
-         html/页面底 #000 · 内容块 #202020（边 #292929）
-         正文 #d9d3c3 · 次要文字 #8a8a8a · 暗淡 #b1aea6
-         链接 #f8b700（hover #fff 加下划线）
-         代码/引用块 #151515（边 #474747）· 行内代码底 #000（边 #1f1f1f）
-         表格 th 底 #151515 / td 底 #000，边框 #292929
-       为什么必须换成暗底：正文里作者用的内联色（金黄 #f7da64、青绿 #1abc9c…）
-       本来就是配暗底挑的，放白底上会发飘。
-       ============================================================ */
-    html { color-scheme: dark; }   /* 让滚动条等浏览器 UI 也走暗色 */
+
+    html { color-scheme: dark; }
     body { margin: 0; background: #000; color: #d9d3c3;
            font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; }
-    /* 正文宽 1302px —— Hive 原站实测值（.p-body-inner 是 max-width:1400px，
-       扣掉内边距后正文实测 1302px）。这个宽度直接决定"一行放几张图"：
-       照它设，配对结果与原文逐行一致（实测 16/16 行吻合）。
-       横向内边距用 clamp：宽屏时正好 49px ⇒ 内容 1302px；
-       窄屏自动收窄，不浪费空间。 */
+
     .panel { max-width: 1302px; margin: 26px auto 48px;
              padding: 22px clamp(16px, 3.5vw, 49px);
              background: #202020; border: 1px solid #292929; border-radius: 5px; }
@@ -34,19 +20,15 @@
     .src { margin-top: 10px; font-size: 13px; color: #8a8a8a; }
     .bbWrapper { line-height: 1.65; font-size: 15px; word-wrap: break-word; }
 
-    /* ---- 图片换行：照搬 Hive/XenForo 的规则，保证跟原帖是同一套机制 ----
-       原站就是靠 `.bbImageWrapper{display:inline-block}` 让多张图排在一行
-       （图之间只有文字或空白，没有 <br>）；容器放不下才折行。
-       漏掉 display:inline-block 会让 div 退回块级 ⇒ 每张图独占一行。 */
     .bbImageWrapper { display: inline-block; max-width: 100%; }
     .bbImage { height: auto; max-width: 100%; width: auto; cursor: zoom-in; }
-    /* 原文里用 style="width: 16px" 之类固定尺寸的（如行内小图标）照旧生效 */
+
     .bbImageWrapper[style*="width"]:not([style*="width: auto"]) > .bbImage { width: 100%; }
     .bbImageWrapper[style*="height"] > .bbImage { height: 100%; }
-    /* 原文里左右浮动的图（.bbImageAligned--left/right）*/
+
     .bbImageWrapper.bbImageAligned--left  { float: left;  margin: .25em 1.35em 1.35em 0; }
     .bbImageWrapper.bbImageAligned--right { float: right; margin: .25em 0 1.35em 1.35em; }
-    /* 兜底：正文里任何图片都不许溢出容器 */
+
     .bbWrapper img { max-width: 100%; height: auto; }
 
     a { color: #f8b700; text-decoration: none; }
