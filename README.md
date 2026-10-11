@@ -18,21 +18,13 @@ A model format conversion tool.
 
 It can easily convert common model formats such as FBX/GLB into the model format used by Warcraft III.
 
-Easy to get started with one-click operation, no professional tools or plugins required.
-
-Excellent compatibility and stability keep you free from all kinds of tricky issues.
+Easy to get started with one-click operation, no professional tools or plugins required. Excellent compatibility and stability keep you free from all kinds of tricky issues.
 
 It can also make model files more stable, making them easier to transfer and use across various game engines and modeling software.
 
 ### Features
 
-Supports FBX
-
-,
-
-GLB , OBJ and MDX (
-
-Classic Edition, Reforged ) and other model formats.
+Supports FBX , GLB , OBJ and MDX ( Classic Edition, Reforged ) and other model formats.
 
 When exporting bake animation frames, andretain the model's rest bind pose. This makes the model file more standardized.
 
