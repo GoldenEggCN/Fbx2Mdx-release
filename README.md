@@ -3,7 +3,7 @@
 <p align="center"><a href="https://github.com/GoldenEggCN/Fbx2Mdx-release/releases/latest"><b>Download latest release</b></a> &nbsp;·&nbsp; <a href="https://goldeneggcn.github.io/Fbx2Mdx-release/">Full introduction</a> &nbsp;·&nbsp; <a href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/">Hive Workshop thread</a></p>
 
 <p align="center">
-<img src="docs/assets/401659-23acabcfa3435da90f880faf67e8e0ed.webp" width="76%" alt="Fbx2Mdx">
+<img src="docs/assets/401858-9f9d4f69f2c5275748efc35cbb4ac65e.webp" width="76%" alt="Fbx2Mdx">
 </p>
 
 ---
