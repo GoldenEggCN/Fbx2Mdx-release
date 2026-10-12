@@ -93,12 +93,8 @@
     }
     if(!(pick&&pick.browser_download_url))return;
     var u=pick.browser_download_url;
-    if(mirror){
-      u="https://gh-proxy.com/"+u;
-      a.title=(j.tag_name||"")+"（镜像）";
-    }else if(j.tag_name){
-      a.title=j.tag_name;
-    }
+    if(mirror)u="https://gh-proxy.com/"+u;
+    if(j.tag_name)a.title=j.tag_name;
     a.href=u;
   }
   var img=new Image(),settled=false;

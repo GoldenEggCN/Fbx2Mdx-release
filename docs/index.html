@@ -93,12 +93,8 @@
     }
     if(!(pick&&pick.browser_download_url))return;
     var u=pick.browser_download_url;
-    if(mirror){
-      u="https://gh-proxy.com/"+u;
-      a.title=(j.tag_name||"")+"（镜像）";
-    }else if(j.tag_name){
-      a.title=j.tag_name;
-    }
+    if(mirror)u="https://gh-proxy.com/"+u;
+    if(j.tag_name)a.title=j.tag_name;
     a.href=u;
   }
   var img=new Image(),settled=false;
@@ -120,9 +116,9 @@
 <div class="changelog">
 <h2>Changelog</h2>
 <div class="bbWrapper">
-<div><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px; font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="10223356" _msthash="324">v0.29</font></h3><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Fixed and optimized the MDX → FBX workflow</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Fixed the issue of missing material textures after importing some models</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Added the "Rig and Skin" tool, with support for one-click combat animation generation</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">When a progress bar appears, it can now be minimized to the taskbar and no longer blocks the screen</span></font></div><br>
-<div><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px; font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="10223356" _msthash="324">v0.28</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-28" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);">Support for same-source formats (FBX/Glb)
-export<br _mstmutation="1" _istranslated="1">Added export support for "Reforged" MDX<br _mstmutation="1" _istranslated="1">Fixed the issue of some model components drifting</font></div></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><br></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10223070" _msthash="322">v0.26:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-26" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="289669874" _msthash="323">Improved FBX import compatibility<br _mstmutation="1" _istranslated="1">Modified the "Simplify Mesh" mechanism</font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323">Added the "Retopology and Baking" tool</font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><br></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10222641" _msthash="320">v0.23:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-23" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="203123245" _msthash="321">Modified the sub-editor interface layout<br _mstmutation="1" _istranslated="1">Added the "Auto Transform" and other buttons<br _mstmutation="1" _istranslated="1">Added animation smoothing and denoising features</font></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><font _mstmutation="1" _msttexthash="203123245" _msthash="321"><br></font></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><font _mstmutation="1" _msttexthash="203123245" _msthash="321"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10222095" _msthash="318">v0.01:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-01" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="8369036" _msthash="319">First test version</font></font></font></font></div>
+<div><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px; font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="10223356" _msthash="324">v0.29</font></h3><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Fixed and optimized the MDX → FBX workflow</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Fixed the issue where material textures were lost after importing some models</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">Added the "Bind Bones and Skin" tool, with support for one-click combat animation generation</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">When a progress bar appears, it can now be minimized to the taskbar and no longer blocks the screen</span></font></div><br>
+<div><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px; font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="10223356" _msthash="324">v0.28</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-28" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);">Support for export in the same-source format (FBX/Glb)
+Export<br _mstmutation="1" _istranslated="1">Added export support for "Reforged" MDX<br _mstmutation="1" _istranslated="1">Fixed the drifting issue of some model components</font></div></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><br></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10223070" _msthash="322">v0.26:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-26" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="289669874" _msthash="323">Improved FBX import compatibility<br _mstmutation="1" _istranslated="1">Modified the "mesh simplification" mechanism</font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323">Added the "Retopology and Baking" tool</font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><br></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10222641" _msthash="320">v0.23:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-23" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="203123245" _msthash="321">Modified the sub-editor interface layout<br _mstmutation="1" _istranslated="1">Added buttons such as "Auto Transform"<br _mstmutation="1" _istranslated="1">Added animation smoothing and noise reduction features</font></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><font _mstmutation="1" _msttexthash="203123245" _msthash="321"><br></font></font></font></div><div><font _mstmutation="1" _msttexthash="357473506" _msthash="325" style="font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; font-size: 13.33px; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="289669874" _msthash="323"><font _mstmutation="1" _msttexthash="203123245" _msthash="321"><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px;"><font _mstmutation="1" _msttexthash="10222095" _msthash="318">v0.01:</font><a class="hoverLink" href="https://www.hiveworkshop.com/threads/fbx2mdx-easily-convert-fbx-glb-to-wc3-model.373975/#-v0-01" title="Permanent link" style="background-color: transparent; text-decoration-line: none; font-weight: normal; font-size: 12.75px; opacity: 0; transition: color 0.25s, opacity 0.25s;"></a></h3><font _mstmutation="1" _msttexthash="8369036" _msthash="319">First test version</font></font></font></font></div>
 </div>
 </div>
 <div class="bbWrapper">
@@ -142,10 +138,10 @@ export<br _mstmutation="1" _istranslated="1">Added export support for "Reforged"
 <b><span style="font-size: 18px">What is this? </span></b><br />
 <span style="color: rgb(243, 121, 52)">A model format conversion tool.</span><br />
 It can easily convert common model formats such as <span style="color: rgb(97, 189, 109)">FBX/GLB</span>&nbsp;into the model format used by <span style="color: rgb(147, 101, 184)">Warcraft III</span>.<br />
-Easy to get started, one-click operation, no professional tools or plugins required.
+Easy to get started with one-click operation, no professional tools or plugins required.
 
 Excellent compatibility and stability keep you free from all kinds of tricky issues.<br />
-It also makes model files more stable, making them easier to transfer and use across various game engines and modeling software.<br />
+It can also make model files more stable, making them easier to transfer and use across various game engines and modeling software.<br />
 <br />
 <b><span style="color: rgb(44, 130, 201)"><span style="font-size: 18px">Features:</span></span></b><br />
 Supports&nbsp;<font color="#fba026">FBX</font>
@@ -154,11 +150,11 @@ Supports&nbsp;<font color="#fba026">FBX</font>
 
 <span style="color: rgb(251, 160, 38);">GLB</span>&nbsp;, &nbsp;<span style="color: rgb(251, 160, 38);">OBJ&nbsp;</span>and <span style="color: rgb(251, 160, 38);">MDX</span>&nbsp;(
 <span style="color: rgb(251, 160, 38);">Classic</span><span style="color: rgb(251, 160, 38);">, &nbsp;</span><span style="color: rgb(251, 160, 38);">Reforged</span>&nbsp;) and other model formats.<br />
-When exporting, &nbsp;<font color="#fba026">bake animation frames</font>, and preserve the model's <span style="color: rgb(251, 160, 38);">rest</span><span style="color: rgb(251, 160, 38);"> bind</span><span style="color: rgb(251, 160, 38);"> pose</span>. This makes the model file more standardized.<br />
+When exporting, <font color="#fba026">bake the animation frames</font>, and preserve the model's <span style="color: rgb(251, 160, 38);">rest</span><span style="color: rgb(251, 160, 38);"> bind</span><span style="color: rgb(251, 160, 38);"> pose</span>. Make the model file more standardized.<br />
 Exported <span style="color: rgb(251, 160, 38);">MDX</span>&nbsp; restores <span style="color: rgb(251, 160, 38)">smooth weight performance</span>, and automatically adds <span style="color: rgb(251, 160, 38);">attachment points</span>&nbsp;and <span style="color: rgb(251, 160, 38);">click spheres</span>.<br />
 Visually edit&nbsp;<span style="color: rgb(251, 160, 38);">offset</span>, <span style="color: rgb(251, 160, 38);">rotation</span>, <span style="color: rgb(251, 160, 38);">scale</span>&nbsp;and other parameters,&nbsp;as well as&nbsp;<span style="color: rgb(251, 160, 38);">recalculate</span><span style="color: rgb(251, 160, 38);"> normals</span>.<br />
-<span style="background-color: rgb(25, 25, 25);">Quickly rig and skin a model that has no skeleton.</span><span style="color: rgb(251, 160, 38);"> </span><span style="background-color: rgb(25, 25, 25);">Make it able to move.</span><br />
-Merge multiple&nbsp;<span style="color: rgb(251, 160, 38)">animation clips</span>. For a properly named skeleton, you can instantly add preset&nbsp;<span style="color: rgb(251, 160, 38);">combat animations</span>.<br />
+<span style="background-color: rgb(25, 25, 25);">Quickly&nbsp;</span><span style="color: rgb(251, 160, 38);">rig and skin</span><span style="background-color: rgb(25, 25, 25);"> a model that has no skeleton. Make it able to move.</span><br />
+Merge multiple&nbsp;<span style="color: rgb(251, 160, 38)">animation clips</span>. For standard-named skeletons, you can instantly add preset&nbsp;<span style="color: rgb(251, 160, 38);">combat animations</span>.<br />
 Reduce the model's&nbsp;<span style="color: rgb(251, 160, 38);">polygon count</span>. Perform&nbsp;<span style="color: rgb(251, 160, 38);">retopology and texture baking</span> on high-poly models with messy topology.<br />
 <br />
 <br />
@@ -192,7 +188,7 @@ Reduce the model's&nbsp;<span style="color: rgb(251, 160, 38);">polygon count</s
 <br />
 <br />
 <br />
-<span style="color: rgb(235, 107, 86)"><font style="font-size: 15px">Quickly adjust the model through operations such as <b style="">translate</b>, <b style="">rotate</b>, and <b style="">scale</b>.</font></span><br />
+<span style="color: rgb(235, 107, 86)"><font style="font-size: 15px">Quickly adjust the model through operations such as <b style="">translation</b>, <b style="">rotation</b>, and <b style="">scaling</b>.</font></span><br />
 <div class="bbImageWrapper" title="404180-ec56dd1c238d6f9179c0724b1125553c.webp"
 		style=""
 	>
@@ -212,7 +208,7 @@ Reduce the model's&nbsp;<span style="color: rgb(251, 160, 38);">polygon count</s
 		<img src="assets/404183-6897748d28b8d658e3dceedecde6ef41.webp" alt="404183-6897748d28b8d658e3dceedecde6ef41.webp" class="bbImage">
 	</div><br />
 <br />
-<span style="color: rgb(235, 107, 86)"><span style="font-size: 15px">The “<b>Decimate Mesh</b>” feature can significantly reduce the vertex count, thereby lessening the game's rendering load.</span></span><br />
+<span style="color: rgb(235, 107, 86)"><span style="font-size: 15px">The “<b>Simplify Mesh</b>” feature can significantly reduce the number of vertices, thereby lessening the game's rendering load.</span></span><br />
 <div class="bbImageWrapper" title="404162-b6fc649292e8be2f7f369620464c4b21.webp"
 		style="width: 500px"
 	>
@@ -226,7 +222,7 @@ Reduce the model's&nbsp;<span style="color: rgb(251, 160, 38);">polygon count</s
 <br />
 <br />
 <br />
-<span style="color: rgb(147, 101, 184)"><font style="font-size: 15px">You can also synthesize more animations for her… as long as you have an asset with the same skeleton.</font></span><br />
+<span style="color: rgb(147, 101, 184)"><font style="font-size: 15px">You can even synthesize more animations for her... as long as you have an asset with the same skeleton.</font></span><br />
 <div class="bbImageWrapper" title="401739-5a301b6f2bead5420249f527cd4b8b7b.webp"
 		style="width: 350px"
 	>
@@ -241,7 +237,7 @@ Reduce the model's&nbsp;<span style="color: rgb(251, 160, 38);">polygon count</s
 		<img src="assets/401741-3a1197d343aa74fb2fc765a74b863e75.webp" alt="401741-3a1197d343aa74fb2fc765a74b863e75.webp" class="bbImage">
 	</div><br />
 <br />
-<span style="font-size: 15px"><span style="color: rgb(147, 101, 184)">The "<b>attachment points</b>" required by the game are automatically identified from the skeleton and added to the model.<br />
+<span style="font-size: 15px"><span style="color: rgb(147, 101, 184)">The "<b>attach points</b>" required by the game will automatically recognize the bones and be added to the model.<br />
 Of course, there are also material textures.</span></span><br />
 <div class="bbImageWrapper" title="401743-3a9d090dd524454281d9f3c1083af1df.gif"
 		style=""
@@ -256,21 +252,21 @@ Of course, there are also material textures.</span></span><br />
 <br />
 <br />
 <br />
-<span style="color: rgb(84, 172, 210)"><font style="font-size: 15px">To achieve the mirror effect... just set the scale value to a negative number.</font></span><br />
+<span style="color: rgb(84, 172, 210)"><font style="font-size: 15px">If you want to achieve a mirror effect... simply set the scale value to a negative number.</font></span><br />
 <div class="bbImageWrapper" title="404194-3b3d320edeb1ee8281b139e278b08db2.webp"
 		style=""
 	>
 		<img src="assets/404194-3b3d320edeb1ee8281b139e278b08db2.webp" alt="404194-3b3d320edeb1ee8281b139e278b08db2.webp" class="bbImage">
 	</div><br />
 <br />
-<span style="color: rgb(84, 172, 210)"><span style="font-size: 15px">Adjusting the <b>"Noise Reduction"</b> and <b>"Smoothing"</b> strength of the animation can make the character's movements smoother.</span></span><br />
+<span style="color: rgb(84, 172, 210)"><span style="font-size: 15px">Adjusting the <b>"Noise Reduction"</b> and <b>"Smoothing"</b> strength of the animation can make the character's movements smooth.</span></span><br />
 <div class="bbImageWrapper" title="404193-f8057a3f48a07a87acc7e25a68132afe.gif"
 		style=""
 	>
 		<img src="assets/404193-f8057a3f48a07a87acc7e25a68132afe.gif" alt="404193-f8057a3f48a07a87acc7e25a68132afe.gif" class="bbImage">
 	</div><br />
 <br />
-<span style="color: rgb(84, 172, 210)"><font style="font-size: 15px"><b style="">Comparison of effects: Original → Noise Reduction → </b><span style="color: rgb(84, 172, 210);"><b style="">Noise Reduction &amp; Smoothing</b></span></font></span><br />
+<span style="color: rgb(84, 172, 210)"><font style="font-size: 15px"><b style="">Effect comparison: original → noise reduction → </b><span style="color: rgb(84, 172, 210);"><b style="">noise reduction &amp; smoothing</b></span></font></span><br />
 <div class="bbImageWrapper" title="401836-fd7726be27ebb84fea650352d1801323.webp"
 		style="width: 350px"
 	>
@@ -288,8 +284,8 @@ Of course, there are also material textures.</span></span><br />
 <br />
 <br />
 <br />
-<span style="color: rgb(0, 168, 133); font-size: 15px;">AI-generated models often have messy topology and a high polygon count, which is not conducive to the skinning workflow</span><span style="color: rgb(0, 168, 133)"><font style="font-size: 15px">. </font></span><br />
-<span style="color: rgb(0, 168, 133); font-size: 15px;">But now you can use this "Retopology and Baking" tool to rebuild this model.</span><br />
+<span style="color: rgb(0, 168, 133); font-size: 15px;">AI-generated models often have messy topology and a high poly count, which is not conducive to the skinning workflow</span><span style="color: rgb(0, 168, 133)"><font style="font-size: 15px">. </font></span><br />
+<span style="color: rgb(0, 168, 133); font-size: 15px;">But now you can rebuild this model with this "Retopology and Baking" tool.</span><br />
 <div class="bbImageWrapper" title="404063-9782e3ad8710f2e6cf40929f0251c5a4.webp"
 		style=""
 	>
@@ -307,7 +303,7 @@ Of course, there are also material textures.</span></span><br />
 		<img src="assets/404069-4740172ef99bee29c087f10858f7ce66.webp" alt="404069-4740172ef99bee29c087f10858f7ce66.webp" class="bbImage">
 	</div><br />
 <br />
-<span style="font-size: 15px"><span style="color: rgb(26, 188, 156)">The blocks of color on the texture are also tidier, and you'll find it much easier to paint patterns and color schemes on it.</span></span><br />
+<span style="font-size: 15px"><span style="color: rgb(26, 188, 156)">The color blocks on the texture also become neater, and you'll find it much easier to draw patterns and color schemes on top.</span></span><br />
 <div class="bbImageWrapper" title="404070-98d81ccb71f25013316d1e671e30b991.webp"
 		style="width: 443px"
 	>
@@ -332,23 +328,23 @@ Of course, there are also material textures.</span></span><br />
 <br />
 Q: Is this software paid?<br />
 <br />
-<span style="color: rgb(255, 255, 255)">A: It is completely free.</span>&nbsp;<span style="color: rgb(255, 255, 255);">Perhaps</span>&nbsp;<span style="color: rgb(255, 255, 255);">in the future only</span><span style="color: rgb(255, 255, 255)"> some AI features may be charged for.</span><br />
+<span style="color: rgb(255, 255, 255)">Answer: It's completely free.</span>&nbsp;<span style="color: rgb(255, 255, 255);">Perhaps</span><span style="color: rgb(255, 255, 255);"> in the future only</span><span style="color: rgb(255, 255, 255)"> some AI features may be charged for.</span><br />
 <br />
 <span style="color: rgb(204, 204, 204)">Q: Do the converted MDX models come with animations? Can particle effects be converted?</span><br />
 <br />
-<span style="color: rgb(255, 255, 255)"><b>A: If the original model has animations, they will naturally be preserved in the converted MDX. As for particle effects, they are a product of the game engine and are not stored in the model file, so they cannot be converted.</b></span><br />
+<span style="color: rgb(255, 255, 255)"><b>A: If the original model has animations, they will naturally be retained in the converted MDX. As for particle effects, they are produced by the game engine and are not stored in the model file, so they cannot be converted.</b></span><br />
 <br />
 Q: Why does this software's conversion feature take a long time, and why do the exported FBX files take up even more disk space?<br />
 <br />
-<span style="color: rgb(255, 255, 255)">A: The software bakes all skeletal animations of the model into keyframes, so it can adapt to almost any game engine and fully reproduce the animation effects. This trades time and disk space for compatibility, which is a necessary trade-off.</span><br />
+<span style="color: rgb(255, 255, 255)">Answer: The software bakes all of the model's skeletal animations into keyframes, making it compatible with almost all game engines while fully preserving the animation effects. This trades time and disk space for compatibility, which is a necessary trade-off.</span><br />
 <br />
-Q: Someone has already used AI to create a DLL that can read and recognize various Blizzard model assets in-game, so why is a converter still needed?<br />
+Q: Someone has already used AI to create a DLL that can read and recognize various Blizzard model resources in-game, so why is a converter still needed?<br />
 <br />
-<span style="color: rgb(255, 255, 255)">Answer: Blizzard's model format is very simple and stable. But closed-source formats like FBX are often endlessly variable and very messy, so reading them directly in-game is highly impractical; the only way is to convert them.</span><br />
+<span style="color: rgb(255, 255, 255)">Answer: Blizzard's model formats are very simple and stable. But closed-source formats like FBX tend to be highly variable and messy, making it unrealistic to read them directly in-game; the only option is to convert them.</span><br />
 <br />
 Q: How is this converter different from other lightweight MDX converters or plugins?<br />
 <br />
-<span style="color: rgb(255, 255, 255)">Answer: It's more like an FBX editor, or rather an "FBX purifier." It turns all kinds of FBX files into more stable versions, so they can flow smoothly between various modeling software and game engines. Therefore, it is not limited to Blizzard's game assets; it has an industrial-grade pipeline and better extensibility.</span><br />
+<span style="color: rgb(255, 255, 255)">Answer: It's more like an FBX editor, or rather an "FBX purifier." It turns all kinds of FBX files into more stable versions, so they can flow smoothly between various modeling software and game engines. Therefore, it's not limited to Blizzard's game assets; it has an industrial-grade pipeline and better extensibility.</span><br />
 <br />
 <br />
 <br />
