@@ -48,13 +48,13 @@
     .changelog h2 { margin: 0 0 8px; font-size: 18px; line-height: 1.3;
                     color: #f8b700; }
 
-    .changelog .cl-top { margin: 0 0 8px; text-align: right; }
-    .changelog a.cl-dl { display: inline-block; padding: 5px 14px;
-                         border-radius: 5px; background: #238636;
-                         border: 1px solid #2ea043; color: #fff;
-                         font-size: 13px; font-weight: bold; line-height: 1.4;
-                         text-decoration: none; }
-    .changelog a.cl-dl:hover { background: #2ea043; border-color: #3fb950; }
+    .cl-top { margin: 0 0 10px; text-align: left; }
+    a.cl-dl { display: inline-block; padding: 5px 14px;
+              border-radius: 5px; background: #238636;
+              border: 1px solid #2ea043; color: #fff;
+              font-size: 13px; font-weight: bold; line-height: 1.4;
+              text-decoration: none; }
+    a.cl-dl:hover { background: #2ea043; border-color: #3fb950; }
     .changelog .bbWrapper { font-size: 14px; line-height: 1.6;
 
                             max-height: 260px; overflow-y: auto; padding-right: 4px; }
@@ -69,8 +69,49 @@
 <header>
 <h1>Fbx2Mdx</h1>
 </header>
-<div class="changelog">
 <div class="cl-top"><a class="cl-dl" href="https://github.com/GoldenEggCN/Fbx2Mdx-release/releases/latest" rel="noopener">下载最新版</a></div>
+<script>
+(function(){
+  var a=document.querySelector("a.cl-dl");
+  if(!a)return;
+  var m=(a.getAttribute("href")||"").match(/github\.com\/([^\/#?]+\/[^\/#?]+)\/releases/);
+  if(!m)return;
+  var j=null,direct=null;                 // direct: null=未知 true=原站 false=镜像
+  function maybe(){
+    if(j===null||direct===null)return;
+    var ass=j.assets||[],pick=null;
+    for(var i=0;i<ass.length;i++){
+      var n=(ass[i].name||"").toLowerCase();
+      if(n.slice(-4)===".exe"){pick=ass[i];break;}
+      if(!pick&&n.slice(-4)===".zip")pick=ass[i];
+    }
+    if(!(pick&&pick.browser_download_url))return;
+    var u=pick.browser_download_url;
+    if(direct===false){
+      u="https://gh-proxy.com/"+u;
+      a.title=(j.tag_name||"")+"（镜像）";
+    }else if(j.tag_name){
+      a.title=j.tag_name;
+    }
+    a.href=u;
+  }
+  var img=new Image(),settled=false;
+  img.onload=function(){if(!settled){settled=true;direct=true;maybe();}};
+  img.onerror=function(){if(!settled){settled=true;direct=false;maybe();}};
+  setTimeout(function(){if(!settled){settled=true;direct=false;maybe();}},4000);
+  img.src="https://github.com/favicon.ico?_="+Date.now();
+  var x=new XMLHttpRequest();
+  x.open("GET","https://api.github.com/repos/"+m[1]+"/releases/latest",true);
+  x.timeout=8000;
+  x.onreadystatechange=function(){
+    if(x.readyState!==4||x.status!==200)return;
+    try{j=JSON.parse(x.responseText);}catch(e){}
+    maybe();
+  };
+  x.send();
+})();
+</script>
+<div class="changelog">
 <h2>更新日志</h2>
 <div class="bbWrapper">
 <div><h3 class="bbHeading" style="margin: 0.5em 0px; clear: both; font-size: 17px; font-family: Verdana, Georgia, &quot;Times New Roman&quot;, Times, serif; background-color: rgb(32, 32, 32);"><font _mstmutation="1" _msttexthash="10223356" _msthash="324">v0.29</font></h3><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">修复并优化了 MDX → FBX 的工作流程</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">修复部分模型导入后材质贴图丢失的问题</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">添加 “绑定骨骼和蒙皮”工具， 并支持一键生成战斗动画</span></font></div><div><font face="Verdana, Georgia, Times New Roman, Times, serif"><span style="font-size: 13.33px;">现在出现进度条时，允许被最小化到任务栏，不再遮挡屏幕</span></font></div><br>
