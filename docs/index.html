@@ -82,9 +82,9 @@
   if(!a)return;
   var m=(a.getAttribute("href")||"").match(/github\.com\/([^\/#?]+\/[^\/#?]+)\/releases/);
   if(!m)return;
-  var j=null,direct=null;                 // direct: null=未知 true=原站 false=镜像
+  var j=null,mirror=null;                  // mirror: null=探针未落定 true=走镜像 false=镜像挂了退直连
   function maybe(){
-    if(j===null||direct===null)return;
+    if(j===null||mirror===null)return;
     var ass=j.assets||[],pick=null;
     for(var i=0;i<ass.length;i++){
       var n=(ass[i].name||"").toLowerCase();
@@ -93,7 +93,7 @@
     }
     if(!(pick&&pick.browser_download_url))return;
     var u=pick.browser_download_url;
-    if(direct===false){
+    if(mirror){
       u="https://gh-proxy.com/"+u;
       a.title=(j.tag_name||"")+"（镜像）";
     }else if(j.tag_name){
@@ -102,10 +102,10 @@
     a.href=u;
   }
   var img=new Image(),settled=false;
-  img.onload=function(){if(!settled){settled=true;direct=true;maybe();}};
-  img.onerror=function(){if(!settled){settled=true;direct=false;maybe();}};
-  setTimeout(function(){if(!settled){settled=true;direct=false;maybe();}},4000);
-  img.src="https://github.com/favicon.ico?_="+Date.now();
+  img.onload=function(){if(!settled){settled=true;mirror=true;maybe();}};
+  img.onerror=function(){if(!settled){settled=true;mirror=false;maybe();}};
+  setTimeout(function(){if(!settled){settled=true;mirror=false;maybe();}},4000);
+  img.src="https://gh-proxy.com/favicon.ico?_="+Date.now();
   var x=new XMLHttpRequest();
   x.open("GET","https://api.github.com/repos/"+m[1]+"/releases/latest",true);
   x.timeout=8000;
