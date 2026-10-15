@@ -102,15 +102,25 @@
   img.onerror=function(){if(!settled){settled=true;mirror=false;maybe();}};
   setTimeout(function(){if(!settled){settled=true;mirror=false;maybe();}},4000);
   img.src="https://gh-proxy.com/favicon.ico?_="+Date.now();
-  var x=new XMLHttpRequest();
-  x.open("GET","https://api.github.com/repos/"+m[1]+"/releases/latest",true);
-  x.timeout=8000;
-  x.onreadystatechange=function(){
-    if(x.readyState!==4||x.status!==200)return;
-    try{j=JSON.parse(x.responseText);}catch(e){}
-    maybe();
-  };
-  x.send();
+  function ask(url,fail){                // fail = 本路失败后的下一跳（null=到底）
+    var x=new XMLHttpRequest(),done=false;
+    function miss(){if(!done){done=true;if(fail)fail();}}
+    x.open("GET",url,true);
+    x.timeout=8000;
+    x.onreadystatechange=function(){
+      if(x.readyState!==4)return;
+      if(x.status===200){
+        try{j=JSON.parse(x.responseText);}catch(e){}
+        if(j)maybe();else miss();
+      }else miss();
+    };
+    x.ontimeout=miss;
+    x.onerror=miss;
+    x.send();
+  }
+  ask("https://api.github.com/repos/"+m[1]+"/releases/latest",
+      function(){ask("https://gh-proxy.com/https://api.github.com/repos/"
+                     +m[1]+"/releases/latest",null);});
 })();
 </script>
 <div class="changelog">
