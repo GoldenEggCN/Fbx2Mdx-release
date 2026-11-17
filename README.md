@@ -20,25 +20,25 @@ A model format conversion tool.
 
 It can easily convert common model formats such as FBX/GLB into the model format used by Warcraft III.
 
-Easy to get started with one-click operation, no professional tools or plugins required. Excellent compatibility and stability keep you free from all kinds of tricky issues.
+Easy to get started with one-click operation—no professional tools or plugins required. Excellent compatibility and stability save you from all kinds of tricky issues.
 
 It can also make model files more stable, making them easier to transfer and use across various game engines and modeling software.
 
-### Key Features
+### Features
 
 Supports FBX , GLB , OBJ and MDX ( Classic Edition, Reforged ) and other model formats.
 
 When exporting, bake animation frames, and preserve the model's rest bind pose. Make the model file more standardized.
 
-The exported MDX restores smooth weight performance, and automatically adds attachment points and click spheres.
+Exported MDX restores smooth weight performance, and automatically adds attachment points and click spheres.
 
 Visually edit parameters such as offset, rotation, and scale, as well as recalculate normals.
 
-Quickly rig and skin a model that has no skeleton. Make it able to move.
+Quickly rig and skin a model without a skeleton. Make it able to move.
 
 Merge multiple animation clips. For standard-named skeletons, you can instantly add preset combat animations.
 
-Simplify the model's polygon count. Perform retopology and texture baking on high-poly models with messy topology.
+Simplify the model's mesh face count. Perform retopology and texture baking on high-poly models with messy topology.
 
 ---
 
@@ -76,7 +76,7 @@ You can also synthesize more animations for her... as long as you have an asset 
 <img src="docs/assets/401739-5a301b6f2bead5420249f527cd4b8b7b.webp" width="32%"> <img src="docs/assets/401740-54161d4e7b92839124c95eb0898181d7.webp" width="32%"> <img src="docs/assets/401741-3a1197d343aa74fb2fc765a74b863e75.webp" width="32%">
 </p>
 
-The "**attach points**" required by the game will automatically recognize the bones and be added to the model.
+The "**attachment points**" required by the game automatically identify bones and add them to the model.
 
 Of course, there are also material textures.
 
@@ -90,13 +90,13 @@ To achieve a mirror effect... simply set the scale value to a negative number.
 <img src="docs/assets/404194-3b3d320edeb1ee8281b139e278b08db2.webp" width="78%">
 </p>
 
-Adjusting the **"Noise Reduction"** and **"Smoothing"** strength of the animation can make the character's movements smoother.
+Adjusting the **"Denoise"** and **"Smooth"** strength of the animation can make the character's movements smoother.
 
 <p align="center">
 <img src="docs/assets/404193-f8057a3f48a07a87acc7e25a68132afe.gif" width="78%">
 </p>
 
-Effect comparison: Original → Noise reduction → Noise reduction & smoothing
+Effect comparison: Original → Denoised → Denoised & Smoothed
 
 <p align="center">
 <img src="docs/assets/401836-fd7726be27ebb84fea650352d1801323.webp" width="32%"> <img src="docs/assets/401837-dd9ab74a1b0e7049c59a5bb294547f0c.webp" width="32%"> <img src="docs/assets/401838-8d9b99c797a979f366cc6b311baf9feb.webp" width="32%">
@@ -104,7 +104,7 @@ Effect comparison: Original → Noise reduction → Noise reduction & smoothing
 
 AI-generated models often have messy topology and high polygon counts, which is not conducive to the skinning workflow.
 
-But now you can use this "Retopology and Baking" tool to reconstruct this model.
+But now you can use this "Retopology and Baking" tool to rebuild this model.
 
 <p align="center">
 <img src="docs/assets/404063-9782e3ad8710f2e6cf40929f0251c5a4.webp" width="78%">
@@ -116,7 +116,7 @@ After retopology, the model's vertex count dropped by a full 50%! And the mesh t
 <img src="docs/assets/404068-68021307fb79527592464592e2f1d13d.webp" width="40%"> → <img src="docs/assets/404069-4740172ef99bee29c087f10858f7ce66.webp" width="40%">
 </p>
 
-The color blocks on the texture are also neater now, and you'll find it much easier to paint patterns and color schemes upward.
+The color blocks on the texture are also neater now, and you'll find it much easier to paint patterns and color schemes on top.
 
 <p align="center">
 <img src="docs/assets/404070-98d81ccb71f25013316d1e671e30b991.webp" width="40%"> → <img src="docs/assets/404071-5d32b06b11e6effde2670784f118f356.webp" width="40%">
@@ -134,18 +134,18 @@ The color blocks on the texture are also neater now, and you'll find it much eas
 
 Q: Is this software paid?
 
-A: Completely free. Perhaps in the future only some AI features may be charged for.
+A: It's completely free. Perhaps in the future only some AI features may be charged.
 
 Q: Do the converted MDX models come with animations? Can particle effects be converted?
 
-**A: If the original model includes animations, they will naturally be preserved in the converted MDX. As for particle effects, they are a product of the game engine and are not stored in the model file, so they cannot be converted.**
+**A: If the original model has animations, they will naturally be retained in the converted MDX. As for particle effects, they are a product of the game engine and are not stored in the model file, so they cannot be converted.**
 
-Q: Someone has already used AI to create a DLL that can read and recognize various Blizzard model resources in-game, so why is a converter still needed?
+Q: Someone has already used AI to create a DLL that can read and recognize various Blizzard model assets in-game, so why is a converter still needed?
 
-Answer: Blizzard's model format is very simple and stable. But closed-source formats like FBX are often highly variable and messy, so reading them directly in-game is unrealistic; the only option is conversion.
+Answer: Blizzard's model format is very simple and stable. But closed-source formats like FBX tend to be highly varied and messy, so reading them directly in-game is unrealistic; the only option is conversion.
 
 Q: How is this converter different from other lightweight MDX converters or plugins?
 
-Answer: It's more like an FBX editor, or rather an "FBX purifier." It turns all kinds of FBX files into more stable versions, so they can flow smoothly between various modeling software and game engines. Therefore, it is not limited to Blizzard's game assets; it has an industrial-grade pipeline and better extensibility.
+Answer: It's more like an FBX editor, or rather an "FBX purifier." It turns all kinds of FBX files into more stable versions, so they can flow freely between various modeling software and game engines. Therefore, it is not limited to Blizzard's game assets; it has an industrial-grade pipeline and better extensibility.
 
-## Enjoy using it!
+## Enjoy!
